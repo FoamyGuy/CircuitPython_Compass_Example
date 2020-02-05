@@ -7,8 +7,14 @@ i2c = busio.I2C(board.SCL, board.SDA)
 
 # Uncomment the import and initializer for your accelerometer.
 
-import adafruit_lsm303_accel
-sensor = adafruit_lsm303_accel.LSM303_Accel(i2c)
+#import adafruit_lis3dh
+#sensor = adafruit_lis3dh.LIS3DH_I2C(i2c)
+
+#import adafruit_lsm303_accel
+#sensor = adafruit_lsm303_accel.LSM303_Accel(i2c)
+
+import adafruit_mpu6050
+sensor = adafruit_mpu6050.MPU6050(i2c)
 
 def vector_2_degrees(x, y):
     radians = atan2(y, x)
@@ -18,19 +24,19 @@ def vector_2_degrees(x, y):
     return degrees_calc
 
 
-def get_inclination(self):
-    return self.get_inclination_respect_x(), self.get_inclination_respect_y()
+def get_inclination(sensor):
+    return get_inclination_respect_x(sensor), get_inclination_respect_y(sensor)
 
-def get_inclination_respect_x(self):
-    accel_axis_data = get_data()
+def get_inclination_respect_x(sensor):
+    accel_axis_data = get_data(sensor)
     vector_2_degrees(accel_axis_data[0], accel_axis_data[2])
 
 def get_inclination_respect_y(sensor):
-    accel_axis_data = get_data()
+    accel_axis_data = get_data(sensor)
     return vector_2_degrees(accel_axis_data[1], accel_axis_data[2])
 
 def get_data(sensor):
-    return sensor.read_accelerometer()
+    return sensor.acceleration
 
 
 while True:
